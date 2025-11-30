@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- Asosiy Sozlamalar (CSS) - O'ZGARISHLARSIZ SAQLANDI --- */
+        /* --- Asosiy Sozlamalar (CSS) --- */
         :root {
             --primary-color: #ff0000;
             --telegram-color: #0088cc;
@@ -24,6 +24,38 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: calc(var(--nav-height) + 20px); overflow-x: hidden; }
+
+        /* --- YANGI: GLOBAL LOADER CSS --- */
+        #global-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000; /* Qora fon */
+            z-index: 9999; /* Hamma narsadan ustun */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        
+        #global-loader.hide-loader {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 150px; /* Logo o'lchami */
+            height: auto;
+            animation: pulseLogo 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
 
         /* Qidiruv va Kategoriya Styles */
         .search-wrapper { position: relative; margin-bottom: 20px; margin-top: 10px; }
@@ -42,8 +74,9 @@
         .hidden { display: none !important; }
 
         /* Login Screen */
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s; }
-        #login-screen.show { opacity: 1; visibility: visible; }
+        /* Eslatma: 'show' klassi olib tashlandi, endi u sukut bo'yicha ko'rinmaydi */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s; }
+        #login-screen.show { display: flex; opacity: 1; visibility: visible; }
         .login-card { background: #111; border: 1px solid #333; padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(255, 0, 0, 0.1); }
         .login-title { color: var(--primary-color); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
         .input-group { margin-bottom: 15px; text-align: left; }
@@ -83,19 +116,17 @@
         .btn { flex: 1; padding: 10px 5px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.8rem; }
         .btn-call { background: linear-gradient(45deg, #cc0000, #ff3333); color: white; box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); }
         .btn-telegram { background: linear-gradient(45deg, #0088cc, #00aaff); color: white; box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3); }
-        .btn-link { background: linear-gradient(45deg, #444444, #666666); color: white; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); } /* YANGI LINK TUGMASI */
+        .btn-link { background: linear-gradient(45deg, #444444, #666666); color: white; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); } 
         .btn:active { transform: scale(0.95); }
 
         /* Services & Settings */
         .service-card { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 20px; margin-bottom: 15px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(10px); transition: 0.3s; }
-        .service-info { width: 100%; } /* Tugmalar yonma-yon turishi uchun o'zgartirildi */
+        .service-info { width: 100%; } 
         .service-info h3 { font-size: 1.1rem; color: #fff; }
         .service-info p { font-size: 0.8rem; color: var(--text-secondary); margin-top: 5px; }
         
-        /* Tugmalar uchun yangi konteyner */
         .service-actions { display: flex; gap: 10px; margin-top: 15px; } 
 
-        /* Service tugmasi stili o'zgartirildi */
         .service-action-btn { flex: 1; height: 45px; border-radius: 8px; background: #222; color: var(--primary-color); border: 1px solid #444; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; cursor: pointer; font-size: 0.9rem; font-weight: 600; padding: 0 10px; }
         
         .service-action-btn.tg { background: var(--telegram-color); color: white; border-color: var(--telegram-color); }
@@ -132,17 +163,15 @@
         .studio-header { font-size: 1.1rem; font-weight: bold; color: #fff; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .studio-text { font-size: 0.8rem; color: #b3b3b3; margin-bottom: 15px; line-height: 1.4; }
         
-        /* APK TUGMASI STYLES - Button uchun moslashtirildi */
         .btn-download-apk { display: flex; align-items: center; justify-content: center; width: 100%; padding: 12px; background: linear-gradient(45deg, #0088cc, #00aaff); color: white; border-radius: 10px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3); border: none; cursor: pointer; font-size: 1rem; }
         .btn-download-apk:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 136, 204, 0.4); }
         .btn-download-apk i { margin-right: 8px; }
 
-        /* Donate & Logout */
+        /* Donate */
         .donate-container { margin-top: 25px; margin-bottom: 25px; text-align: center; }
         .btn-donate { background: linear-gradient(45deg, #ffb300, #ff8c00); color: #fff; padding: 15px; border-radius: 12px; display: block; text-decoration: none; font-weight: bold; position: relative; overflow: hidden; animation: pulse 2s infinite; }
         .btn-donate i { margin-right: 8px; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 165, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); } }
-        /* .btn-logout {} -> Ushbu element endi ishlatilmaydi */
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; height: 65px; background: rgba(30, 30, 30, 0.8); backdrop-filter: blur(15px); display: flex; justify-content: space-around; align-items: center; border-radius: 20px; z-index: 1000; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -156,7 +185,11 @@
 </head>
 <body>
 
-    <div id="login-screen" class="show">
+    <div id="global-loader">
+        <img src="https://www.dropbox.com/scl/fi/8rqwfnlspr75ywwwx7yoi/file_000000003c2071f586a6f76b784d5b45.png?rlkey=8mnz5fprvlesksqrnsrrezftn&st=mz2gmwc3&dl=1" alt="Loading..." class="loader-logo">
+    </div>
+
+    <div id="login-screen">
         <div class="login-card">
             <h2 class="login-title">Sultanov Shop</h2>
             
@@ -336,77 +369,41 @@
     </nav>
 
     <script>
-        // --- YANGI: TELEGRAM OCHISH SCRIPT ---
-        // Bu funksiya ilova (APK) ichida ekanligingizda ham Telegramni majburan ochadi.
         function forceOpenTelegram(username, postId = null) {
-            // Username'dan @ va bo'sh joylarni olib tashlaymiz
             const cleanUser = username.replace('@', '').trim();
-            
-            // tg://resolve protokoli
             let deepLink = `tg://resolve?domain=${cleanUser}`;
-            if (postId) {
-                deepLink += `&post=${postId}`;
-            }
-
-            // Web link (zaxira uchun)
+            if (postId) { deepLink += `&post=${postId}`; }
             let webLink = `https://t.me/${cleanUser}`;
-            if (postId) {
-                webLink += `/${postId}`;
-            }
-
-            // 1. Dastur protokoli orqali ochish (Bu APK ichidan tashqariga chiqishga yordam beradi)
+            if (postId) { webLink += `/${postId}`; }
             window.location.href = deepLink;
-
-            // 2. Agar ilova bo'lmasa, web versiyasini ochish (zaxira)
-            setTimeout(() => {
-                window.open(webLink, '_blank');
-            }, 500);
+            setTimeout(() => { window.open(webLink, '_blank'); }, 500);
         }
 
-        // Mahsulot va Xizmatlar linklarini avtomatik to'g'irlaydigan funksiya
         function openSmartTelegramLink(url) {
-            if (!url || url === 'undefined' || url === 'null') return; // Agar havola mavjud bo'lmasa
-
-            // Agar oddiy tel raqam bo'lsa
-            if(url.startsWith('tel:')) {
-                window.location.href = url;
-                return;
-            }
-
-            // Telegram havolasini tahlil qilish
+            if (!url || url === 'undefined' || url === 'null') return;
+            if(url.startsWith('tel:')) { window.location.href = url; return; }
             if (url.includes('t.me/') || url.includes('telegram.me/')) {
-                // Linkdan username va post IDsini ajratib olish
-                // Masalan: https://t.me/User/123 yoki https://t.me/User
                 const cleanUrl = url.replace('https://t.me/', '').replace('https://telegram.me/', '');
                 const parts = cleanUrl.split('/');
                 const username = parts[0];
                 const postId = parts[1] || null;
-                
                 forceOpenTelegram(username, postId);
             } else {
-                // Agar shunchaki havola bo'lsa (masalan payme, appcreator24, boshqa sayt)
                 window.open(url, '_blank');
             }
         }
 
-        // --- MA'LUMOTLAR BAZASI (Data) ---
+        // --- MA'LUMOTLAR BAZASI ---
         const USER_DATA_KEY = 'sultanov_shop_user_data_v2'; 
         let userImageURL = ''; 
         
         const products = [
-            // MA'LUMOTLAR O'ZGARISHLARSIZ SAQLANDI
-            //maktab
             { id: 100, name: "3D Kublar tez kunda...<br>Mahsulot ID: 100", category: "school", categoryTitle: "Maktab", desc: "3D KUBULAR: O'QITISH VA RIVOJLANTIRISH UCHUN UNIVERSAL VOSITA<br>Maktabda nazariy tushunchalarni amaliy o'rganishga yordam beradi.<br>", price: "10 000 so'm", img: "https://www.dropbox.com/scl/fi/w6mgysdz4p7u90aggtbo2/plastic-toy-blocks-white-background_272787-1427.jpg?rlkey=nqkjd6af3stj5jre8t6x5lqk7&st=gkfo8vvn&dl=1", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" },
-            //mashina
             { id: 200, name: "tez kunda...", category: "auto", categoryTitle: "Mashina", desc: "Bu yerda sizni mahsulotingiz bo'lishi mumkin.", price: "50 000 so'm", img: "https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" },
-       
-            //kiyimlar
             { id: 300, name: "Erkaklar Futbolkasi", category: "clothes", categoryTitle: "Kiyimlar", desc: "100% paxta, qora rang.", price: "90 000 so'm", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" },
             { id: 301, name: "Klassik Kepka", category: "clothes", categoryTitle: "Kiyimlar", desc: "Yozgi mavsum uchun qulay.", price: "45 000 so'm", img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" },
-            //atir
             { id: 400, name: "Erkaklar Atiri (Eclat)", category: "perfume", categoryTitle: "Parfyumeriya", desc: "Uzoq muddat turadigan ifor.", price: "180 000 so'm", img: "https://images.unsplash.com/photo-1523293188086-b15bc418e630?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/PerfumeShopAdmin" },
             { id: 401, name: "Ayollar uchun ifor", category: "perfume", categoryTitle: "Parfyumeriya", desc: "Yumshoq gullar hidi.", price: "200 000 so'm", img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/PerfumeShopAdmin" },
-            //sultanovshop
             { id: 500, name: "Sultanov Maxsus Box", category: "sultanov", categoryTitle: "Sultanov Shop", desc: "Brend sovg'alar to'plami.", price: "500 000 so'm", img: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" },
             { id: 501, name: "LG 1999", category: "sultanov", categoryTitle: "Sultanov Shop", desc: "Sultanov logotipi tushirilgan.", price: "60 000 so'm", img: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=300&q=60", contact: "+998777042489", tgLink: "https://t.me/SULTANOVSHOPBOT" }
         ];
@@ -415,21 +412,18 @@
             'school': 'fa-graduation-cap', 'auto': 'fa-car', 'clothes': 'fa-tshirt', 'perfume': 'fa-spray-can', 'sultanov': 'fa-crown'
         };
 
-        // --- YANGILANGAN XIZMATLAR MA'LUMOTLAR BAZASI ---
         const services = [
-            // Eski ma'lumotlar saqlandi, faqat endi 'link' va 'tgLink' aniq belgilangan
-            { id: 1, name: "*Hogwarts", desc: "Hogwarts o'quv markazida o'qish uchun qabul.<br>Chinoz Tumanidagi yetakchi o'quv markazi.<br> Sifatli va yuqori darajadagi ta'lim, barcha yo'nalishlarda. ", link: null, tgLink: "https://t.me/news_hogwarts" }, // Masalan, Telegram kanaliga havola
+            { id: 1, name: "*Hogwarts", desc: "Hogwarts o'quv markazida o'qish uchun qabul.<br>Chinoz Tumanidagi yetakchi o'quv markazi.<br> Sifatli va yuqori darajadagi ta'lim, barcha yo'nalishlarda. ", link: null, tgLink: "https://t.me/news_hogwarts" },
             { id: 2, name: "*Fullstack platforma(sayt) yaratish", desc: "To'liq Siklli Fullstack Veb-Dasturlash Xizmati<br>Tajribali Fullstack Dasturchi Boburov Shukrullo<br>sizning barcha talablaringizga javob beradigan raqamli platformalarni ishlab chiqishni taklif etadi.", link: null, tgLink: "https://t.me/rovixwb" },
-            { id: 3, name: "*AppCreator24 da apk yaratish", desc: "AppCreator24 - bu kod yozmasdan (yoki kod ham yozib) Android ilovalarini yaratish imkonini beruvchi, tortib tashlash (drag-and-drop) interfeysiga ega bepul platformadir.", link: "https://www.appcreator24.com/", tgLink: null }, // Tashqi saytga havola
-            { id: 4, name: "*Telegram Bot yaratish", desc: "Boburov Shukrullo – faqat sizning biznesingiz uchun mo‘ljallangan, yuqori samarali va ishonchli Telegram botlar ishlab chiquvchisi.", link: null, tgLink: "https://t.me/rovixwb" }, // Yana bir Telegram havola
+            { id: 3, name: "*AppCreator24 da apk yaratish", desc: "AppCreator24 - bu kod yozmasdan (yoki kod ham yozib) Android ilovalarini yaratish imkonini beruvchi, tortib tashlash (drag-and-drop) interfeysiga ega bepul platformadir.", link: "https://www.appcreator24.com/", tgLink: null },
+            { id: 4, name: "*Telegram Bot yaratish", desc: "Boburov Shukrullo – faqat sizning biznesingiz uchun mo‘ljallangan, yuqori samarali va ishonchli Telegram botlar ishlab chiquvchisi.", link: null, tgLink: "https://t.me/rovixwb" },
             { id: 5, name: "*O'z xizmatingizni bu yerga joylash", desc: "O'z xizmatingizni shu yerga joylashtiring turli tariflar bilan xizmatni joylang, 50ming so'mdan 300mingacha narxda xizmat joylash va havolalar ishlatish, premium belgilar. ", link: null, tgLink: "https://t.me/rovixwb" }
         ];
-        // --------------------------------------------------
 
         const translations = {
-            uz: { shop: "Do'kon", products: "Mahsulotlar", categories: "Bo'limlar", buy: "Sotib olish", services: "Xizmatlar", servicesTitle: "Mening Xizmatlarim", settings: "Sozlamalar", resume: "Ma'lumotlar", contact: "Admin Tel:", settingsMenu: "Parametrlar", nameLabel: "Ism:", surnameLabel: "Familiya:", myPhone: "Tel:", donate: "Jamoani qo'llab-quvvatlash", logout: "Tizimdan chiqish", back: "Kategoriyalarga qaytish", searchPh: "Qidirish...", call: "Tel", telegram_btn: "Tg", link_btn: "Havola" }, // 'link_btn' qo'shildi
-            ru: { shop: "Магазин", products: "Продукты", categories: "Категории", buy: "Купить", services: "Услуги", servicesTitle: "Мои Услуги", settings: "Настройки", resume: "Данные", contact: "Админ тел:", settingsMenu: "Параметры", nameLabel: "Имя:", surnameLabel: "Фамилия:", myPhone: "Тел:", donate: "Поддержать команду", logout: "Выйти", back: "Назад к категориям", searchPh: "Поиск...", call: "Тел", telegram_btn: "Тг", link_btn: "Ссылка" }, // 'link_btn' qo'shildi
-            en: { shop: "Shop", products: "Products", categories: "Categories", buy: "Buy Now", services: "Services", servicesTitle: "My Services", settings: "Settings", resume: "Details", contact: "Admin Phone:", settingsMenu: "Settings", nameLabel: "Name:", surnameLabel: "Surname:", myPhone: "Phone:", donate: "Support the Team", logout: "Log Out", back: "Back to categories", searchPh: "Search...", call: "Call", telegram_btn: "Tg", link_btn: "Link" } // 'link_btn' qo'shildi
+            uz: { shop: "Do'kon", products: "Mahsulotlar", categories: "Bo'limlar", buy: "Sotib olish", services: "Xizmatlar", servicesTitle: "Mening Xizmatlarim", settings: "Sozlamalar", resume: "Ma'lumotlar", contact: "Admin Tel:", settingsMenu: "Parametrlar", nameLabel: "Ism:", surnameLabel: "Familiya:", myPhone: "Tel:", donate: "Jamoani qo'llab-quvvatlash", logout: "Tizimdan chiqish", back: "Kategoriyalarga qaytish", searchPh: "Qidirish...", call: "Tel", telegram_btn: "Tg", link_btn: "Havola" },
+            ru: { shop: "Магазин", products: "Продукты", categories: "Категории", buy: "Купить", services: "Услуги", servicesTitle: "Мои Услуги", settings: "Настройки", resume: "Данные", contact: "Админ тел:", settingsMenu: "Параметры", nameLabel: "Имя:", surnameLabel: "Фамилия:", myPhone: "Тел:", donate: "Поддержать команду", logout: "Выйти", back: "Назад к категориям", searchPh: "Поиск...", call: "Тел", telegram_btn: "Тг", link_btn: "Ссылка" },
+            en: { shop: "Shop", products: "Products", categories: "Categories", buy: "Buy Now", services: "Services", servicesTitle: "My Services", settings: "Settings", resume: "Details", contact: "Admin Phone:", settingsMenu: "Settings", nameLabel: "Name:", surnameLabel: "Surname:", myPhone: "Phone:", donate: "Support the Team", logout: "Log Out", back: "Back to categories", searchPh: "Search...", call: "Call", telegram_btn: "Tg", link_btn: "Link" }
         };
 
         let currentLang = 'uz';
@@ -503,8 +497,6 @@
             }
         }
 
-        // --- ASOSIY RENDER FUNKSIYALARI (YANGILANDI: Button + Onclick) ---
-
         function renderProducts(items) {
             const container = document.getElementById('product-list');
             container.innerHTML = '';
@@ -515,10 +507,7 @@
             }
 
             items.forEach(p => {
-                // Linkni olamiz
                 const customLink = p.tgLink ? p.tgLink : "https://t.me/SULTONOVSARDORBEKowner";
-
-                // DIQQAT: <a href> o'rniga <button onclick> ishlatildi, shunda majburiy ochish funksiyasi ishlaydi
                 const html = `
                     <div class="card">
                         <img src="${p.img}" alt="${p.name}" class="card-img">
@@ -545,7 +534,6 @@
             });
         }
 
-        // --- YANGILANGAN renderServices FUNKSIYASI ---
         function renderServices(items = services) {
             const container = document.getElementById('service-list');
             container.innerHTML = '';
@@ -556,10 +544,7 @@
             }
 
             items.forEach(s => {
-                // Havolalar uchun tugmalarni dinamik yaratish
                 let buttonsHtml = '';
-                
-                // 1. Agar tgLink mavjud bo'lsa, Telegram tugmasini yaratish
                 if (s.tgLink) {
                     buttonsHtml += `
                         <button onclick="openSmartTelegramLink('${s.tgLink}')" class="service-action-btn tg">
@@ -567,8 +552,6 @@
                         </button>
                     `;
                 }
-
-                // 2. Agar link (boshqa saytga) mavjud bo'lsa, "Havola" tugmasini yaratish
                 if (s.link) {
                      buttonsHtml += `
                         <button onclick="openSmartTelegramLink('${s.link}')" class="service-action-btn link">
@@ -576,11 +559,7 @@
                         </button>
                     `;
                 }
-                
-                // Agar ikkala tugma ham mavjud bo'lmasa, faqat ma'lumot qoldiriladi
                 const actionsHtml = buttonsHtml ? `<div class="service-actions">${buttonsHtml}</div>` : '';
-
-
                 const html = `
                     <div class="service-card">
                         <div class="service-info">
@@ -593,7 +572,6 @@
                 container.innerHTML += html;
             });
         }
-        // ----------------------------------------------------
 
         function loadUserData(data) {
             currentUserData = data;
@@ -633,7 +611,10 @@
 
             const loginScreen = document.getElementById('login-screen');
             loginScreen.classList.remove('show');
-            setTimeout(() => { loginScreen.style.display = 'none'; document.getElementById('shop').classList.add('active'); }, 500);
+            setTimeout(() => { 
+                loginScreen.style.display = 'none'; 
+                document.getElementById('shop').classList.add('active'); 
+            }, 500);
         }
 
         function toggleEditMode() {
@@ -661,30 +642,32 @@
             alert("Ma'lumotlar muvaffaqiyatli saqlandi!");
         }
 
-        // --- O'CHIRILDI: logOut() funksiyasi olib tashlandi ---
-        /*
-        function logOut() {
-            if(confirm(translations[currentLang].logout + " qilasizmi?")) {
-                localStorage.removeItem(USER_DATA_KEY);
-                window.location.reload(); 
-            }
-        }
-        */
-
+        // --- YANGILANGAN: LOGIN STATUSINI TEKSHIRISH FUNKSIYASI ---
         function checkLoginStatus() {
             const savedDataString = localStorage.getItem(USER_DATA_KEY);
+            const loader = document.getElementById('global-loader');
             const loginScreen = document.getElementById('login-screen');
             
-            if (savedDataString) {
-                const userData = JSON.parse(savedDataString);
-                loadUserData(userData);
-                changeLang(userData.lang);
-                loginScreen.style.display = 'none';
-                document.getElementById('shop').classList.add('active'); 
-            } else {
-                loginScreen.style.display = 'flex';
-                loginScreen.classList.add('show');
-            }
+            // Loading effekti uchun ozgina kechikish (1 soniya)
+            setTimeout(() => {
+                loader.classList.add('hide-loader'); // Loaderni yashirishni boshlaymiz
+
+                // Loader yo'qolgandan so'ng (CSS transition 0.8s)
+                setTimeout(() => {
+                    loader.style.display = 'none'; // DOMdan butunlay olib tashlash
+
+                    if (savedDataString) {
+                        // Agar foydalanuvchi tizimda bo'lsa
+                        const userData = JSON.parse(savedDataString);
+                        loadUserData(userData);
+                        changeLang(userData.lang);
+                        document.getElementById('shop').classList.add('active'); // Do'konni ochish
+                    } else {
+                        // Agar foydalanuvchi tizimda bo'lmasa -> LOGIN EKRANINI KO'RSATISH
+                        loginScreen.classList.add('show');
+                    }
+                }, 800); // Loader transition vaqti bilan bir xil
+            }, 1000); // 1 sekundlik branding vaqti
         }
         
         function previewFile() {
@@ -725,7 +708,6 @@
             document.querySelector('.lang-surname-label').innerText = t.surnameLabel;
             document.querySelector('.lang-my-phone').innerText = t.myPhone;
             document.querySelector('.lang-donate').innerText = t.donate;
-            // document.querySelector('.lang-logout').innerText = t.logout; // Olib tashlangan element
             document.querySelector('.lang-shop').innerText = t.shop;
             document.querySelector('.lang-services').innerText = t.services;
             document.querySelector('.lang-settings-menu').innerText = t.settingsMenu;
@@ -741,7 +723,6 @@
             const tgBtns = document.querySelectorAll('.lang-telegram');
             tgBtns.forEach(btn => { btn.innerHTML = `<i class="fab fa-telegram-plane"></i> ${t.telegram_btn}`; });
         
-            // YANGILANGAN SERVICE TUGMALAR MATNI
             document.querySelectorAll('.service-action-btn.tg').forEach(btn => { 
                 btn.innerHTML = `<i class="fab fa-telegram-plane"></i> ${t.telegram_btn}`;
             });
@@ -765,7 +746,7 @@
         }
 
         window.onload = function() {
-            checkLoginStatus();
+            checkLoginStatus(); // Asosiy o'zgarish shu yerda
             renderCategories(); 
             renderServices();
             showSlides();
@@ -773,4 +754,3 @@
     </script>
 </body>
 </html>
-
